@@ -6,16 +6,18 @@ import os
 
 
 app = Flask(__name__)
-app.config["down"]  = os.path.abspath(os.getcwd())
+main_path = os.path.dirname(os.path.abspath(__file__)) 
+app.config["down"] =os.path.join(main_path,'images')  
 
 
 @app.route("/")
 def hello_world():
     return render_template('index.html')
 
-app.route('/download')
+
+@app.route('/download')
 def down():
-    return app.config["down"]
+    return send_from_directory(app.config["down"],path =app.config["down"], filename='zaki12.jpg', as_attachment=True)
 
 if __name__ == '__main__':
     app.run( debug=True)
