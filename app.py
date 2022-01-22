@@ -11,7 +11,6 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 main_path = os.path.dirname(os.path.abspath(__file__)) 
 app.config["down"] =os.path.join(main_path,'images')  
@@ -62,6 +61,7 @@ def down():
     return send_from_directory(app.config["down"],path =app.config["down"], filename='zaki12.jpg', as_attachment=True)
 
 
+app.register_blueprint(auth_blueprint)
 
 
 
