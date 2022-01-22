@@ -36,6 +36,8 @@ def down():
 @app.route('/ytb')
 def yout() : 
     auth = request.authorization
+    if auth : 
+        return 'guerilla'
     return 'algerien'
 
 
