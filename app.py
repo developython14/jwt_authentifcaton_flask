@@ -19,7 +19,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] =  'sqlite:///test.db'
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 jwt = JWTManager(app)
-CORS(app)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
@@ -42,6 +41,8 @@ def login():
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
+    access_token = create_access_token(identity='username')
+    print(access_token)
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 

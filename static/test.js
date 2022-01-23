@@ -23,7 +23,7 @@ async function postData(url = '', data = {}) {
 
 function toma () {
     var data = {
-        'username': document.getElementById('name').value,  'password': document.getElementById('pass').value
+        'username':'test',  'password': 'test'
     }
     console.log(data);
     postData('/login',data).then(data => {
