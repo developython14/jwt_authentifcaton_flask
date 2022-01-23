@@ -24,17 +24,16 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 # Create a route to authenticate your users and return JWTs. The
-# create_access_token() function is used to actually generate the JWT.
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST" ,"GET"])
 def login():
-    if request.method == 'POST':
-        username = request.form["nm"]
-        password = request.form["pass"]
-        if username != "test" or password != "test":
-            return jsonify({"msg": "Bad username or password"}), 401
-        access_token = create_access_token(identity=username)
-        print(access_token)
-        return jsonify(access_token=access_token)
+    req = request.get_json()
+    print("doc is " , req)
+    username = req["username"]
+    password = req["password"]
+    if username != "test" or password != "test":
+        return jsonify({"msg": "Bad username or password"}), 401
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
 
 
 # Protect a route with jwt_required, which will kick out requests
@@ -60,8 +59,6 @@ def hello_world():
 def down():
     return send_from_directory(app.config["down"],path =app.config["down"], filename='zaki12.jpg', as_attachment=True)
 
-
-app.register_blueprint(auth_blueprint)
 
 
 

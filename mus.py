@@ -7,6 +7,3 @@ class mustapha :
     @staticmethod
     def toma():
         print('mustpah belkassem')
-
-
-
