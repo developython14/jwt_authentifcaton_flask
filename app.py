@@ -18,6 +18,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] =  'sqlite:///test.db'
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_HEADER_TYPE"] = 'Bearer'
+
+
+
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -25,14 +29,29 @@ bcrypt = Bcrypt(app)
 # Create a route to authenticate your users and return JWTs. The
 @app.route("/login", methods=["POST" ,"GET"])
 def login():
-    req = request.get_json()
-    print("doc is " , req)
-    username = req["username"]
-    password = req["password"]
-    if username != "test" or password != "test":
+    username = "username"
+    password = "password"
+    if username == "test" or password == "test":
         return jsonify({"msg": "Bad username or password"}), 401
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity="alger")
     return jsonify(access_token=access_token)
+
+
+
+@app.route('/token' ,methods=["POST" ,"GET"])
+def token():
+    access_token = create_access_token(identity="mustapha")
+    return jsonify(access_token=access_token)
+
+
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user
+
+
+
+
 
 
 # Protect a route with jwt_required, which will kick out requests
@@ -41,8 +60,6 @@ def login():
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
-    access_token = create_access_token(identity='username')
-    print(access_token)
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
